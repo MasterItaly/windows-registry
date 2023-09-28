@@ -1,4 +1,6 @@
-﻿using WindowsRegistry.Componentes.Core;
+﻿using System.Windows;
+using System.Windows.Input;
+using WindowsRegistry.Componentes.Core;
 
 namespace WindowsRegistry.MVVM.ViewModel
 {
@@ -27,6 +29,66 @@ namespace WindowsRegistry.MVVM.ViewModel
         _currentView = value;
         OnPropertyChanged();
       }
+    }
+
+    private RelayCommand minimizeCommand;
+    public ICommand MinimizeCommand
+    {
+      get
+      {
+        if (minimizeCommand == null)
+        {
+          minimizeCommand = new RelayCommand(param => MinimizeWindow());
+        }
+        return minimizeCommand;
+      }
+    }
+
+    private RelayCommand maximizeCommand;
+    public ICommand MaximizeCommand
+    {
+      get
+      {
+        if (maximizeCommand == null)
+        {
+          maximizeCommand = new RelayCommand(param => MaximizeWindow());
+        }
+        return maximizeCommand;
+      }
+    }
+
+    private RelayCommand closeCommand;
+    public ICommand CloseCommand
+    {
+      get
+      {
+        if (closeCommand == null)
+        {
+          closeCommand = new RelayCommand(param => CloseWindow());
+        }
+        return closeCommand;
+      }
+    }
+    private void MinimizeWindow()
+    {
+      Application.Current.MainWindow.WindowState = WindowState.Minimized;
+    }
+
+    private void MaximizeWindow()
+    {
+      if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+      {
+        Application.Current.MainWindow.WindowState = WindowState.Normal;
+      }
+      else
+      {
+        Application.Current.MainWindow.WindowState = WindowState.Maximized;
+      }
+    }
+
+    private void CloseWindow()
+    {
+      Application.Current.MainWindow.Close();
     }
 
 
